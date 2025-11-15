@@ -1,0 +1,314 @@
+/* ================================== */
+/* snacks.css               */
+/* (Styles pour snacks.html)       */
+/* ================================== */
+
+.page-snacks {
+  --surface: #f5f6f8;
+  --card: #ffffff;
+  --ink: #1C2129;
+  --ink-2: #666;
+  --white: #fff;
+  --gold: #DAA846;
+  --ok: #1E8E3E;
+  --shadow: 0 8px 24px rgba(0, 0, 0, .12);
+}
+
+.page-snacks * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.page-snacks img {
+  display: block;
+  max-width: 100%;
+}
+
+.page-snacks a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-snacks {
+  font-family: Heebo, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+/* Grille générale : 2 colonnes */
+.page-snacks .row {
+  width: 100%;
+}
+
+.page-snacks .container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.page-snacks .layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(360px, 520px) 1fr;
+  align-items: stretch;
+  font-family: Heebo, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: #f5f6f8;
+}
+
+/* Colonne droite (shop) */
+.page-snacks .shop {
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-snacks .shop-head h2 {
+  font-size: 22px;
+}
+
+.page-snacks .shop-sub {
+  color: var(--ink-2);
+}
+
+/* Grille des produits */
+.page-snacks .category-section {
+  margin-top: 10px;
+}
+
+.page-snacks .category-section h3 {
+  margin: 18px 0 12px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.page-snacks .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  overflow: visible;
+}
+
+/* Carte produit */
+.page-snacks .card {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background: #fff;
+  border: 1px solid #E2E2E2;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .12);
+  border-radius: 3px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.page-snacks .card img {
+  width: 100%;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 5px;
+}
+
+.page-snacks .product-name {
+  font-weight: 400;
+  font-size: 14px;
+  color: #181818;
+  margin-top: 10px;
+  height: 3em;
+}
+
+.page-snacks .price {
+  font-weight: 700;
+  font-size: 16px;
+  color: #000;
+  margin-top: 5px;
+}
+
+.page-snacks .card-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.page-snacks .card .btn {
+  all: unset;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.page-snacks .card .btn:focus-visible {
+  outline: 2px solid var(--ok);
+  outline-offset: 2px;
+}
+
+.page-snacks .card .btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.page-snacks .qty {
+  min-width: 32px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* Panier */
+.page-snacks .cart {
+  margin-top: 8px;
+  background: #fff;
+  border: 1px solid #E2E2E2;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.page-snacks .cart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.page-snacks .cart-lines {
+  list-style: none;
+  padding: 0 16px;
+  margin: 0;
+}
+
+.page-snacks .cart-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid #E2E2E2;
+}
+
+.page-snacks .cart-line:last-child {
+  border-bottom: none;
+}
+
+.page-snacks .cart-trash {
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #FFC107;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.page-snacks .cart-trash img {
+  width: 18px;
+  height: 18px;
+}
+
+.page-snacks .cart-trash:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+}
+
+.page-snacks .cart-foot {
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.page-snacks .btn-continue {
+  display: inline-block;
+  padding: 10px 16px;
+  background: var(--gold);
+  color: #000;
+  border-radius: 999px;
+  text-align: center;
+}
+
+.page-snacks .btn-continue.is-disabled {
+  opacity: .5;
+  pointer-events: none;
+}
+
+.page-Gsnack .btn-ghost {
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+/* Accessibilité focus */
+.page-snacks .btn-ghost:focus-visible,
+.page-snacks .btn-continue:focus-visible,
+.page-snacks .cart-trash:focus-visible {
+  outline: 2px solid var(--ok);
+  outline-offset: 2px;
+}
+
+/* En-tête droite */
+.page-snacks .right {
+  padding: 28px min(4vw, 32px) 24px;
+}
+
+.page-snacks .topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-snacks .salle {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.page-snacks .btn-compte {
+  background: var(--chip);
+  border-radius: 6px;
+  padding: 6px 12px;
+  border: 0;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.page-snacks .desactive {
+  position: absolute;
+  height: 13px;
+  left: 50.59%;
+  top: 48px;
+}
+
+.page-snacks .headline {
+  margin: 22px 0 6px;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.page-snacks .sub {
+  margin: 0 0 18px;
+  color: var(--ink-2);
+  font-size: 15px;
+}

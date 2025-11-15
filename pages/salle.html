@@ -5,99 +5,88 @@
   <meta charset="utf-8" />
   <title>Vos places – Pathé (Salle)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/commun.css">
+  <link rel="stylesheet" href="../assets/css/colonne-gauche.css">
+  <link rel="stylesheet" href="../assets/css/salle.css">
 </head>
 
 <body>
   <main>
     <div class="page-salle">
 
-    <div class="row">
-      <div class="container">
-        <div class="layout">
+      <div class="row">
+        <div class="container">
+          <div class="layout">
 
-          <!-- ============ PANNEAU GAUCHE ============ -->
-          <aside class="left">
-            <nav class="breadcrumb" aria-label="Fil d’Ariane">
-              <a href="../index.html">Accueil
-                <img src="../assets/images/PICTOS/fleche.png" alt="→" class="icon-fleche" />
-              </a>
-              <a href="./catalogue.html">Choisir une séance
-                <img src="../assets/images/PICTOS/fleche.png" alt="→" class="icon-fleche" />
-              </a>
-              <span class="current">Vos places</span>
-            </nav>
-            <div class="left-content">
-              <img class="logo-pathe" src="../assets/images/PICTOS/logo-international-white 1.png" alt="Pathé" />
-              <img id="filmPoster" class="poster" src="" alt="Affiche du film" />
+            <aside class="left">
+              <nav class="breadcrumb" aria-label="Fil d’Ariane">
+                <a href="../index.html">Accueil
+                  <img src="../assets/images/PICTOS/fleche.png" alt="" class="icon-fleche" />
+                </a>
+                <a href="./catalogue.html">Choisir une séance
+                  <img src="../assets/images/PICTOS/fleche.png" alt="" class="icon-fleche" />
+                </a>
+                <span class="current">Vos places</span>
+              </nav>
+              <div class="left-content">
+                <img class="logo-pathe" src="../assets/images/PICTOS/logo-international-white 1.png" alt="Pathé" />
+                <img id="filmPoster" class="poster" src="" alt="Affiche du film" />
 
-              <!-- Titre : 2 variantes compatibles JS -->
-              <h1 id="filmTitle" class="film-title" aria-live="polite"></h1>
-              <div class="movie-info">
-                <h1 id="movieTitle" class="title" aria-live="polite"></h1>
-                <p id="movieInfo" class="sub"></p>
-              </div>
-
-              <!-- Séance : variantes combinées -->
-              <div class="seance-info seance-meta">
-                <div class="time-block">
-                  <span id="seanceTime" class="time">--:--</span>
-                  <span id="seanceLang" class="version"></span>
-                  <span id="version" class="version"></span>
+                <h1 id="filmTitle" class="film-title" aria-live="polite"></h1>
+                <div class="seance-info seance-meta">
+                  <div class="time-block">
+                    <span id="seanceTime" class="time">--:--</span>
+                    <span id="seanceLang" class="version"></span>
+                    <span id="version" class="version"></span>
+                  </div>
+                  <p id="seanceEnd" class="end">Fin prévue —:—</p>
                 </div>
-                <p id="seanceEnd" class="end">Fin prévue —:—</p>
+
+                <button class="btn ghost" id="changeFilmBtn" type="button">Changer de film</button>
+              </div>
+            </aside>
+
+            <section class="right" aria-labelledby="h-seats">
+              <header class="topbar">
+                <div class="salle">
+                  <h3>Salle <span id="roomNo">–</span></h3>
+                  <img src="../assets/images/PICTOS/desactive-black.png" alt="" class="desactive">
+                </div>
+                <button class="btn-compte" type="button" id="btnRetour">
+                  <img src="../assets/images/PICTOS/fleche.png" alt="" class="icon-fleche rotate" />
+                  Retour
+                </button>
+              </header>
+
+
+              <h2 id="h-seats" class="headline">Sélectionnez vos places</h2>
+              <p id="freeCount" class="sub">— places libres</p>
+
+              <div id="seatGrid" class="grid" role="grid" aria-label="Grille des sièges sélectionnable"></div>
+
+              <div class="screen">
+                <div class="bar"></div>
+                <div class="label">Écran</div>
+                <div class="bar"></div>
               </div>
 
-              <button class="btn ghost" id="changeFilmBtn" type="button">Changer de film</button>
-            </div>
-          </aside>
-
-          <!-- ============ PANNEAU DROIT ============ -->
-          <section class="right" aria-labelledby="h-seats">
-            <header class="topbar">
-              <div class="salle">
-                <h3>Salle <span id="roomNo">–</span></h3>
-
-                <img src="../assets/images/PICTOS/desactive-black.png" alt="logo-hanicap" class="desactive">
+              <div class="legend" aria-hidden="true">
+                <div class="leg"><span class="ico seat me"></span>Mes places</div>
+                <div class="leg"><span class="ico seat free"></span>Places libres</div>
+                <div class="leg"><span class="ico seat taken"></span>Indisponibles</div>
               </div>
-              <button class="btn-compte" type="button" onclick="history.back()">
-                <img src="../assets/images/PICTOS/fleche.png" alt="←" class="icon-fleche rotate" />
-                Retour
+
+              <div class="recap" aria-live="polite" aria-atomic="true">
+                <strong>Vos sièges :</strong> <span id="mySeats">—</span>
+              </div>
+
+              <button id="btnReserve" class="cta-reserve" type="button" disabled>
+                Réserver mes places →
               </button>
-            </header>
+            </section>
 
-
-            <h2 id="h-seats" class="headline">Sélectionnez vos places</h2>
-            <p id="freeCount" class="sub">— places libres</p>
-
-            <div id="seatGrid" class="grid" role="grid" aria-label="Grille des sièges sélectionnable"></div>
-
-            <div class="screen">
-              <div class="bar"></div>
-              <div class="label">Écran</div>
-              <div class="bar"></div>
-            </div>
-
-            <div class="legend" aria-hidden="true">
-              <div class="leg"><span class="ico seat me"></span>Mes places</div>
-              <div class="leg"><span class="ico seat free"></span>Places libres</div>
-              <div class="leg"><span class="ico seat taken"></span>Indisponibles</div>
-            </div>
-
-            <div class="recap" aria-live="polite" aria-atomic="true">
-              <strong>Vos sièges :</strong> <span id="mySeats">—</span>
-            </div>
-
-            <button id="btnReserve" class="cta-reserve" type="button" disabled>
-              Réserver mes places →
-            </button>
-          </section>
-
-        </div><!-- /.layout -->
-      </div><!-- /.container -->
-    </div><!-- /.row -->
-  </main>
-</div>
+          </div></div></div></main>
+  </div>
   <script src="../assets/js/salle.js"></script>
 </body>
 

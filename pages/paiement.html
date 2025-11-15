@@ -5,7 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Paiement sécurisé – Pathé</title>
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/commun.css">
+  <link rel="stylesheet" href="../assets/css/colonne-gauche.css">
+  <link rel="stylesheet" href="../assets/css/paiement.css">
 </head>
 
 <body>
@@ -19,10 +21,10 @@
             <aside class="left">
               <nav class="breadcrumb" aria-label="Fil d’Ariane">
                 <a href="../index.html">Accueil
-                  <img src="../assets/images/PICTOS/fleche.png" alt="→" class="icon-fleche" />
+                  <img src="../assets/images/PICTOS/fleche.png" alt="" class="icon-fleche" />
                 </a>
                 <a href="./catalogue.html">Choisir une séance
-                  <img src="../assets/images/PICTOS/fleche.png" alt="→" class="icon-fleche" />
+                  <img src="../assets/images/PICTOS/fleche.png" alt="" class="icon-fleche" />
                 </a>
                 <span class="current">Vos places</span>
               </nav>
@@ -30,14 +32,7 @@
                 <img class="logo-pathe" src="../assets/images/PICTOS/logo-international-white 1.png" alt="Pathé" />
                 <img id="filmPoster" class="poster" src="" alt="Affiche du film" />
 
-                <!-- Titre : 2 variantes compatibles JS -->
                 <h1 id="filmTitle" class="film-title" aria-live="polite"></h1>
-                <div class="movie-info">
-                  <h1 id="movieTitle" class="title" aria-live="polite"></h1>
-                  <p id="movieInfo" class="sub"></p>
-                </div>
-
-                <!-- Séance : variantes combinées -->
                 <div class="seance-info seance-meta">
                   <div class="time-block">
                     <span id="seanceTime" class="time">--:--</span>
@@ -56,8 +51,8 @@
                   Salle <span id="roomNo">–</span>
                   <img src="../assets/images/PICTOS/desactive-black.png" alt="" class="desactive">
                 </div>
-                <button class="btn-compte" type="button" onclick="history.back()">
-                  <img src="../assets/images/PICTOS/fleche.png" alt="←" class="icon-fleche rotate" />
+                <button class="btn-compte" type="button" id="btnRetour">
+                  <img src="../assets/images/PICTOS/fleche.png" alt="" class="icon-fleche rotate" />
                   Retour
                 </button>
               </header>

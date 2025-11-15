@@ -1,0 +1,120 @@
+/* ================================== */
+/* index.css               */
+/* (Styles pour index.html)       */
+/* ================================== */
+
+/* reset minimal */
+.page-banner * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BANNIÈRE TAILLE MAQUETTE */
+.page-banner .banner {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #333;
+}
+
+/* OMBRE INTERNE (remplace l'ancienne image fixe) */
+.page-banner .banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 428px -41px 69px 17px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* SLIDER couche de fond */
+.page-banner .slider {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.page-banner .slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.page-banner .slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .7s ease;
+  background-position: center;
+  background-size: cover;
+}
+
+.page-banner .slide.is-active {
+  opacity: 1;
+}
+
+/* OVERLAYS (textes/bouton/icône) - au-dessus de tout */
+.page-banner .logo {
+  position: absolute;
+  top: 5.46%;
+  left: 3.59%;
+  height: 60px;
+  z-index: 2;
+}
+
+.page-banner .title-strong {
+  position: absolute;
+  top: 39.47%;
+  left: 6.25%;
+  width: 668px;
+  height: 216px;
+  margin: 0;
+  z-index: 2;
+}
+
+.page-banner .title-light {
+  position: absolute;
+  top: 52.28%;
+  left: 6.25%;
+  margin: 0;
+  z-index: 2;
+}
+
+.page-banner .btn-reserver {
+  position: absolute;
+  top: 66.88%;
+  left: 6.95%;
+  width: 429px;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Heebo';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 31px;
+  text-decoration: none;
+  color: #0C0C0C;
+  background: #FEB91E;
+  border-radius: 15px;
+  transition: transform .25s ease, background .25s ease;
+  z-index: 2;
+}
+
+.page-banner .btn-reserver:hover {
+  transform: scale(1.05);
+  background: #ffc933;
+}
+
+.page-banner .billet {
+  position: absolute;
+  top: 629.77px;
+  left: 11%;
+  height: 22px;
+  transform: rotate(-44.02deg);
+  z-index: 2;
+}

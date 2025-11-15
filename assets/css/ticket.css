@@ -1,0 +1,162 @@
+/* ================================== */
+/* ticket.css               */
+/* (Styles pour ticket.html)       */
+/* ================================== */
+
+.page-ticket {
+  --bg-dark: #1C2129;
+  --ink: #1C2129;
+  --ink-2: #666;
+  --white: #fff;
+  --gold: #DAA846;
+  --shadow: 0 8px 24px rgba(0, 0, 0, .18);
+  --surface: #f5f6f8;
+  --chip: #202020;
+}
+
+.page-ticket .row {
+  width: 100%;
+}
+
+.page-ticket .container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.page-ticket .layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(360px, 520px) 1fr;
+  align-items: stretch;
+  font-family: Heebo, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.page-ticket a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ===================== COLONNE DROITE ===================== */
+.page-ticket .ticket {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  background: var(--white);
+  border-radius: var(--ticket-radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+  padding: 28px 24px 24px;
+  margin-inline: auto;
+  isolation: isolate;
+}
+
+.page-ticket .ticket::before {
+  content: "";
+  position: absolute;
+  inset: 8% 6% 22% 6%;
+  background-image: var(--ticket-watermark);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: .22;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.page-ticket .ticket::after {
+  content: "";
+  position: absolute;
+  left: 24px;
+  bottom: 26px;
+  width: 26px;
+  height: 26px;
+  background-image: var(--ticket-rooster);
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: .6;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.page-ticket .ticket>* {
+  position: relative;
+  z-index: 1;
+}
+
+.page-ticket .ticket-header p {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: left;
+}
+
+.page-ticket .ticket-body h2 {
+  margin: 0 0 8px 0;
+  font-size: 28px;
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: .5px;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+.page-ticket .ticket-body .ticket-info {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.page-ticket .ticket-body .ticket-info strong,
+.page-ticket .ticket-body .ticket-info .lbl {
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.page-ticket .ticket-body .ticket-info .val {
+  color: #555;
+}
+
+.page-ticket .ticket-body .ticket-info.total {
+  margin-top: 8px;
+  font-weight: 700;
+}
+
+.page-ticket .qr-code-container {
+  margin-top: 16px;
+  padding: 6px;
+  border-radius: 6px;
+  background: var(--white);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .06);
+  display: inline-block;
+}
+
+.page-ticket .qr-code-container img {
+  width: 120px;
+  height: 120px;
+  display: block;
+}
+
+.page-ticket .logo-international {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  width: 42px;
+  height: auto;
+  opacity: .85;
+  background-color: #FFDC7D;
+}
+
+.page-ticket .ticket-footer {
+  clear: both;
+  margin-top: 16px;
+}
+
+.page-ticket .ticket-footer p {
+  margin: 12px 0 0 0;
+  color: #777;
+  font-size: 12px;
+  text-align: center;
+}

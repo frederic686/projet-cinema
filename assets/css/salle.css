@@ -1,0 +1,291 @@
+/* ================================== */
+/* salle.css               */
+/* (Styles pour salle.html)       */
+/* ================================== */
+
+.page-salle {
+  --bg-dark: #1C2129;
+  --ink: #1C2129;
+  --ink-2: #666;
+  --white: #fff;
+  --gold: #DAA846;
+  --green: #1E8E3E;
+  --shadow: 0 8px 24px rgba(0, 0, 0, .18);
+  --chip: #202020;
+}
+
+.page-salle .row {
+  width: 100%;
+}
+
+.page-salle .container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.page-salle .layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(360px, 520px) 1fr;
+  align-items: stretch;
+  font-family: Heebo, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif;
+  color: var(--ink);
+}
+
+/* Utilitaires & variantes */
+.page-salle .btn-ghost {
+  background: #1F2228;
+  color: #fff;
+}
+
+.page-salle .btn.ghost {
+  background: #61646A;
+  color: #fff;
+  border: 0;
+  padding: 10px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* PANNEAU DROIT – en-tête + titre + sous-titre */
+.page-salle .topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-salle .salle {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.page-salle .btn-compte {
+  background: var(--chip);
+  border-radius: 6px;
+  padding: 6px 12px;
+  border: 0;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.page-salle .desactive {
+  position: absolute;
+  height: 13px;
+  left: 50.59%;
+  top: 48px;
+}
+
+.page-salle .headline {
+  margin: 22px 0 6px;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.page-salle .sub {
+  margin: 0 0 18px;
+  color: var(--ink-2);
+  font-size: 15px;
+}
+
+/* Grille des sièges */
+.page-salle .grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 34px);
+  gap: 10px;
+  justify-content: center;
+  padding: 90px;
+  animation: fadeIn .3s ease-out both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px)
+  }
+
+  to {
+    opacity: 1;
+    transform: none
+  }
+}
+
+.page-salle .seat {
+  width: 34px;
+  height: 26px;
+  position: relative;
+}
+
+.page-salle .seat button {
+  all: unset;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 6px;
+  position: relative;
+  outline-offset: 2px;
+}
+
+.page-salle .seat button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: center/contain no-repeat;
+  transition: transform .12s ease, filter .15s ease;
+}
+
+.page-salle .seat.free button::before {
+  background-image: url("../images/PICTOS/siege-jaune.png");
+}
+
+.page-salle .seat.me button::before {
+  background-image: url("../images/PICTOS/siege-vert.png");
+}
+
+.page-salle .seat.taken button::before {
+  background-image: url("../images/PICTOS/siege-gris.png");
+}
+
+.page-salle .seat.free button:hover::before {
+  filter: brightness(1.05);
+}
+
+.page-salle .seat.me {
+  animation: pop .18s ease-out;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(.85)
+  }
+
+  to {
+    transform: scale(1)
+  }
+}
+
+.page-salle .seat.taken {
+  pointer-events: none;
+  opacity: .7;
+}
+
+.page-salle .seat.gap {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.page-salle .seat.gap button {
+  display: none;
+}
+
+.page-salle .seat.pmr button::before {
+  background-image: url("../images/PICTOS/siege-gris.png");
+  filter: contrast(1.1);
+}
+
+.page-salle .seat.vip button::before {
+  background-image: url("../images/PICTOS/siege-jaune.png");
+  box-shadow: 0 0 0 3px rgba(218, 168, 70, .25);
+}
+
+.page-salle .seat.custom button::before {
+  background-color: #DAA846;
+  background-image: var(--seat-bg) !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60%;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+}
+
+/* Écran & légende */
+.page-salle .screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin: 18px 0 10px;
+}
+
+.page-salle .screen .bar {
+  height: 10px;
+  background: #DAA846;
+  border-radius: 6px;
+  width: min(18vw, 260px);
+}
+
+.page-salle .screen .label {
+  font-weight: 700;
+  color: #DAA846;
+  font-size: 20px;
+}
+
+.page-salle .legend {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin: 8px 0 6px;
+  color: #444;
+}
+
+.page-salle .leg {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.page-salle .leg .ico.seat {
+  width: 26px;
+  height: 20px;
+  display: inline-block;
+  background: center/contain no-repeat;
+}
+
+.page-salle .leg .ico.free {
+  background-image: url("../images/PICTOS/siege-jaune.png");
+}
+
+.page-salle .leg .ico.taken {
+  background-image: url("../images/PICTOS/siege-gris.png");
+}
+
+.page-salle .leg .ico.me {
+  background-image: url("../images/PICTOS/siege-vert.png");
+}
+
+/* Récap & CTA */
+.page-salle .recap {
+  text-align: center;
+  margin: 10px 0 18px;
+  font-size: 15px;
+}
+
+.page-salle .cta-reserve {
+  display: block;
+  width: 100%;
+  padding: 16px 18px;
+  border: 0;
+  font-family: 'Heebo';
+  color: #111;
+  font-weight: 800;
+  font-size: 18px;
+  cursor: pointer;
+  bottom: 0.11%;
+  background: #FEB91E;
+}
+
+.page-salle .cta:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.page-salle .cta:not(:disabled):hover {
+  filter: brightness(1.02);
+}
