@@ -100,6 +100,49 @@
 
 
   // ---------------------------------------------------------
+  // [NOUVEAU] Génération du QR Code Dynamique
+  // ---------------------------------------------------------
+  try {
+    // 1. Préparer les données à inclure dans le QR Code
+    const ticketData = {
+      film: film,
+      salle: salle,
+      seance: seance,
+      langue: langue,
+      sieges: seats,
+      totalPaye: fmtEUR(parseFloat(total))
+    };
+
+    // 2. Convertir cet objet en une chaîne de texte (format JSON)
+    const qrDataString = JSON.stringify(ticketData);
+
+    // 3. Trouver l'élément image
+    const qrImgElement = $("#qr-code");
+
+    // 4. Vérifier que la bibliothèque 'QRious' est bien chargée
+    if (qrImgElement && typeof QRious !== 'undefined') {
+      
+      // 5. Générer le QR code
+      const qr = new QRious({
+        element: qrImgElement, // Cible directement votre <img>
+        value: qrDataString,   // Les données (la chaîne JSON)
+        size: 120,             // Taille en pixels (correspond à votre CSS)
+        level: 'H'             // Niveau de correction d'erreur
+      });
+
+      // 6. (Optionnel) Mettre à jour le texte 'alt' pour l'accessibilité
+      qrImgElement.alt = "QR Code pour votre billet : " + film;
+
+    } else if (typeof QRious === 'undefined') {
+      console.warn("La bibliothèque QRious n'est pas chargée. Le QR code ne peut être généré.");
+    }
+
+  } catch (err) {
+    console.error("Erreur lors de la génération du QR Code :", err);
+  }
+
+
+  // ---------------------------------------------------------
   // Reset storage sur liens Accueil
   // Si l'utilisateur clique pour retourner à l'accueil, on vide le localStorage
   // pour commencer une nouvelle réservation propre.
