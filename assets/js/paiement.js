@@ -1,14 +1,16 @@
 /* =========================================================
-   ticket.js – Récup params & hydratation du ticket
+   paiement.js – Hydratation, accordéon, masques CB
    Attendu dans l'URL : film, poster, salle, seance, langue, fin, seats, total
    ========================================================= */
 (() => {
+    // --- Helpers ---
     const $ = (s, ctx = document) => ctx.querySelector(s);
     const $$ = (s, ctx = document) => [...ctx.querySelectorAll(s)];
-    const fmtEUR = n => n.toLocaleString('fr-FR', {
+    const fmtEUR = n => Number(n || 0).toLocaleString('fr-FR', {
         style: 'currency',
         currency: 'EUR'
     });
+    
     // ====== Récup params pour la colonne gauche + total
     const qp = new URLSearchParams(location.search);
     const film = qp.get('film') || 'Titre du film';
@@ -16,16 +18,17 @@
     const salle = qp.get('salle') || '—';
     const heure = qp.get('seance') || '--:--';
     const langue = qp.get('langue') || '—';
-    const fin = qp.get('fin') || '—:—';
-    const total = Number(qp.get('total')) || 30.30;
-    // 👇 NEW : sièges (compat "places")
+    const fin = qp.get('fin') || '—:—'; // Note: 'fin' est utilisé, pas 'end'
+    const total = Number(qp.get('total')) || 0; // Total global (billets + snacks)
+    // Compatibilité : accepte 'seats' (de salle.js) ou 'places' (ancien)
     const seats = qp.get('seats') || qp.get('places') || '';
 
-    // Mise à jour de l'affichage du total à partir du paramètre URL
+    // Mise à jour de l'affichage du total (colonne de droite)
     document.getElementById('totalAmount').textContent = fmtEUR(total);
 
     // ---------------------------------------------------------
     // [COMMUN] Fonction d'hydratation de la colonne gauche
+    // (Identique aux autres scripts)
     // ---------------------------------------------------------
     async function hydrateLeftColumn(params) {
         const poster = params.get('poster') || '';
@@ -33,17 +36,18 @@
         const salle = params.get('salle') || '—';
         const seance = params.get('seance') || '';
         const langue = params.get('langue') || '—';
-        const endQP = params.get('end') || '';
+        const endQP = params.get('end') || params.get('fin') || ''; // Prend 'end' ou 'fin'
         const leftPane = document.querySelector('.left');
         const posterEl = document.querySelector('#filmPoster');
-        const titleEl = document.querySelector('#movieTitle');
+        // IDs spécifiques à la page paiement/ticket
+        const titleEl = document.querySelector('#movieTitle') || document.querySelector('#filmTitle');
         const seanceTimeEl = document.querySelector('#seanceTime');
         const seanceEndEl = document.querySelector('#seanceEnd');
-        const seanceLangEl = document.querySelector('#version');
-        const roomNoEl = document.querySelector('#roomBadge');
+        const seanceLangEl = document.querySelector('#version') || document.querySelector('#seanceLang');
+        const roomNoEl = document.querySelector('#roomBadge') || document.querySelector('#roomNo');
 
-        // Mise à jour de l'affiche et du fond de la colonne gauche
-       const posterFile = (poster ? poster.split('/').pop() : '') || 'placeholder.jpg';
+        // Affiche et fond
+        const posterFile = (poster ? poster.split('/').pop() : '') || 'placeholder.jpg';
         if (posterEl) {
             posterEl.src = `../assets/images/FILMS/${posterFile}`;
             posterEl.alt = `Affiche : ${film}`;
@@ -52,17 +56,18 @@
             leftPane.style.setProperty('--left-bg', `url("../images/FILMS/${posterFile}")`);
         }
 
-        // Mise à jour des textes
+        // Textes
         if (titleEl) titleEl.textContent = film;
         if (roomNoEl) roomNoEl.textContent = `Salle ${salle}`;
         if (seanceTimeEl) seanceTimeEl.textContent = seance || '—:—';
         if (seanceLangEl) seanceLangEl.textContent = langue || '—';
-        
-        // Gestion de l'heure de fin (fin prévue)
+
+        // Heure de fin
         if (seanceEndEl) {
             if (endQP) {
                 seanceEndEl.textContent = `Fin prévue à ${endQP}`;
             } else {
+                // Fetch films.json si l'heure de fin n'est pas dans l'URL
                 try {
                     const res = await fetch('../data/films.json');
                     const list = await res.json();
@@ -76,28 +81,36 @@
             }
         }
     }
-    
-    // Appel de la fonction harmonisée
+
+    // Appel de la fonction pour la colonne de gauche
     hydrateLeftColumn(qp);
 
-    // ====== Accordéon
+    // ====== Accordéon (Méthodes de paiement)
     const items = $$('#payMethods .ac-item');
     items.forEach(item => {
-        const head = $('.ac-head', item);
-        const body = $('.ac-body', item);
+        const head = $('.ac-head', item); // La partie cliquable (en-tête)
+        const body = $('.ac-body', item); // Le contenu (formulaire CB)
+        
+        // Fonction pour ouvrir CET item et fermer les autres
         const openOne = () => {
             items.forEach(i => {
-                const h = $('.ac-head', i),
-                    b = $('.ac-body', i);
-                const on = i === item;
-                i.classList.toggle('open', on);
-                h.setAttribute('aria-expanded', String(on));
+                const h = $('.ac-head', i);
+                const b = $('.ac-body', i);
+                const on = (i === item); // Est-ce l'item sur lequel on a cliqué ?
+                
+                i.classList.toggle('open', on); // Ajoute/retire la classe 'open'
+                h.setAttribute('aria-expanded', String(on)); // Accessibilité
+                
+                // Gère l'animation de la hauteur (CSS)
                 b.style.maxHeight = on ? (b.scrollHeight + 'px') : '0px';
             });
         };
+        
+        // Si un item est 'open' au chargement, on calcule sa hauteur
         if (item.classList.contains('open')) body.style.maxHeight = body.scrollHeight + 'px';
-        head.addEventListener('click', openOne);
-        head.addEventListener('keydown', e => {
+        
+        head.addEventListener('click', openOne); // Ouvre au clic
+        head.addEventListener('keydown', e => { // Ouvre avec Espace ou Entrée
             if (e.key === ' ' || e.key === 'Enter') {
                 e.preventDefault();
                 openOne();
@@ -105,25 +118,26 @@
         });
     });
 
-    // ====== Masques + détection marque carte (16 chiffres, pas de Luhn)
-    const numberInput = $('#cc-number');
-    const expInput = $('#cc-exp');
-    const cvcInput = $('#cc-cvc');
-    const brandRow = $('#brandRow');
+    // ====== Masques + détection marque carte
+    const numberInput = $('#cc-number'); // Input numéro CB
+    const expInput = $('#cc-exp'); // Input date expiration
+    const cvcInput = $('#cc-cvc'); // Input CVC
+    const brandRow = $('#brandRow'); // Conteneur pour le logo (Visa, MC)
 
     numberInput?.addEventListener('input', (e) => {
-        // garde uniquement les chiffres et limite à 16
+        // 1. Garde uniquement les chiffres (remplace \D) et limite à 16
         let v = e.target.value.replace(/\D/g, '').slice(0, 16);
 
-        // format par groupe de 4
+        // 2. Formate par groupe de 4 (ex: "1234 5678")
         e.target.value = v.replace(/(.{4})/g, '$1 ').trim();
 
-        // détection simple de la marque
-        let brand = 'cb';
+        // 3. Détection simple de la marque (basée sur les premiers chiffres)
+        let brand = 'cb'; // Défaut
         if (/^4/.test(v)) brand = 'visa';
-        else if (/^(5[1-5]|2[2-7])/.test(v)) brand = 'mc';
-        else if (/^3[47]/.test(v)) brand = 'amex'; // sera refusé au "Continuer" si != 16
+        else if (/^(5[1-5]|2[2-7])/.test(v)) brand = 'mc'; // Mastercard (BINs étendus)
+        else if (/^3[47]/.test(v)) brand = 'amex'; // Amex
 
+        // 4. Affiche le logo correspondant
         const logos = {
             cb: '../assets/images/LOGO/cb.png',
             visa: '../assets/images/LOGO/visa.webp',
@@ -132,36 +146,59 @@
         };
         brandRow.innerHTML = v ? `<img class="logo" src="${logos[brand]}" alt="${brand.toUpperCase()}">` : '';
 
-        // feedback visuel : vert uniquement à 16 chiffres, jamais de rouge ici
+        // 5. Feedback visuel (vert si 16 chiffres, sinon neutre)
         e.target.classList.remove('valid', 'invalid');
         if (v.length === 16) e.target.classList.add('valid');
     });
 
     expInput?.addEventListener('input', (e) => {
+        // 1. Garde chiffres, limite à 4 (MMYY)
         let v = e.target.value.replace(/\D/g, '').slice(0, 4);
+        
+        // 2. Ajoute le "/" automatiquement (ex: "12" -> "12", "122" -> "12/2")
         if (v.length >= 3) v = v.slice(0, 2) + '/' + v.slice(2);
         e.target.value = v;
+        
+        // 3. Feedback visuel (vert/rouge si 5 chars ET date valide)
         e.target.classList.remove('valid', 'invalid');
-        if (v.length === 5) e.target.classList.add(validExpiry(v) ? 'valid' : 'invalid');
+        if (v.length === 5) {
+            e.target.classList.add(validExpiry(v) ? 'valid' : 'invalid');
+        }
     });
 
     cvcInput?.addEventListener('input', (e) => {
+        // 1. Garde chiffres, limite à 4 (pour Amex)
         e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+        
+        // 2. Feedback (vert si 3+ chiffres)
         e.target.classList.remove('valid', 'invalid');
         if (e.target.value.length >= 3) e.target.classList.add('valid');
     });
 
+    /**
+     * Vérifie si une date d'expiration (MM/YY) est valide (pas expirée).
+     * @param {string} mmYY - Date au format "MM/YY"
+     * @returns {boolean}
+     */
     function validExpiry(mmYY) {
         const [mm, yy] = mmYY.split('/').map(n => parseInt(n, 10));
-        if (!mm || mm < 1 || mm > 12) return false;
-        const now = new Date(),
-            y = 2000 + yy,
-            m = mm - 1;
-        const exp = new Date(y, m + 1, 1);
-        return exp > now;
+        if (!mm || mm < 1 || mm > 12) return false; // Mois invalide
+        
+        const now = new Date();
+        const y = 2000 + yy; // Année (ex: 25 -> 2025)
+        const m = mm - 1; // Mois (JS : 0-11)
+        
+        // La date d'expiration est le dernier jour du mois MM/YY.
+        // On vérifie si le *premier* jour du mois *suivant* (m + 1) est dans le futur.
+        const exp = new Date(y, m + 1, 1); // ex: 12/25 -> 1er Jan 2026
+        return exp > now; // Doit être > aujourd'hui
     }
 
-    // 👇 NEW : redirection vers ticket.html avec TOUTES les infos
+    // ---------- Redirection vers le ticket ----------
+    /**
+     * Construit l'URL de la page "ticket.html" et y redirige l'utilisateur.
+     * Transmet TOUTES les informations de la séance.
+     */
     function goToTicket() {
         const params = new URLSearchParams({
             film,
@@ -169,47 +206,55 @@
             salle,
             seance: heure,
             langue,
-            fin,
-            seats,
-            total: total.toFixed(2)
+            fin, // Transmet l'heure de fin
+            seats, // Transmet les sièges
+            total: total.toFixed(2) // Transmet le total payé
         });
         location.href = './ticket.html?' + params.toString();
     }
 
-    // Démo boutons
+    // --- Démo : Clic sur les boutons de paiement ---
+    
+    // Clic sur Google Pay (simule paiement réussi)
     $('#btnGpay')?.addEventListener('click', () => goToTicket());
 
+    // Clic sur le bouton principal "Payer X,XX €"
     $('#btnContinue').addEventListener('click', () => {
+        // Vérifie quelle méthode de paiement est ouverte
         const active = document.querySelector('.ac-item.open')?.dataset.method;
+        
         if (active === 'card') {
-            const raw = numberInput.value.replace(/\s+/g, ''); // chiffres seuls
+            // --- Validation du formulaire carte ---
+            const raw = numberInput.value.replace(/\s+/g, ''); // Numéro sans espaces
 
-            // Exiger exactement 16 chiffres
+            // 1. Exiger 16 chiffres (pas 15 pour Amex dans cette démo)
             if (raw.length !== 16) {
                 numberInput.classList.remove('valid');
-                numberInput.classList.add('invalid'); // rouge seulement au submit si ce n'est pas 16
+                numberInput.classList.add('invalid'); // Rouge
                 numberInput.focus();
-                return;
+                return; // Bloque
             }
-
+            // 2. Exiger date valide
             if (!validExpiry(expInput.value)) {
                 expInput.classList.add('invalid');
                 expInput.focus();
-                return;
+                return; // Bloque
             }
+            // 3. Exiger CVC (3+ chiffres)
             if (cvcInput.value.length < 3) {
                 cvcInput.classList.add('invalid');
                 cvcInput.focus();
-                return;
+                return; // Bloque
             }
 
             // ✅ Paiement carte OK (démo) -> ticket
             goToTicket();
+            
         } else if (active === 'gpay') {
             // ✅ Google Pay sélectionné (démo) -> ticket
             goToTicket();
         } else {
-            // ✅ fallback
+            // ✅ Autre méthode (ou pas d'accordéon) -> ticket (fallback)
             goToTicket();
         }
     });

@@ -4,6 +4,12 @@
 /* ================================== */
 
 /* reset minimal */
+/*
+ * Réinitialisation minimale pour tous les éléments enfants de .page-banner.
+ * - margin: 0; (supprime les marges extérieures)
+ * - padding: 0; (supprime les marges intérieures)
+ * - box-sizing: border-box; (le padding et la bordure sont inclus dans la largeur/hauteur)
+ */
 .page-banner * {
   margin: 0;
   padding: 0;
@@ -11,110 +17,153 @@
 }
 
 /* BANNIÈRE TAILLE MAQUETTE */
+/*
+ * Style du conteneur principal de la bannière.
+ */
 .page-banner .banner {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  margin: 0 auto;
-  overflow: hidden;
-  background: #333;
+  position: relative; /* Base pour le positionnement absolu des enfants (slider, overlays) */
+  width: 100%; /* Prend toute la largeur de la page */
+  height: 100vh; /* Prend 100% de la hauteur de la fenêtre (Viewport Height) */
+  margin: 0 auto; /* Centre le bloc (bien que 100% de largeur le rende peu utile) */
+  overflow: hidden; /* Cache tout contenu qui déborderait (ex: images du slider) */
+  background: #333; /* Fond sombre de secours si les images ne chargent pas */
 }
 
 /* OMBRE INTERNE (remplace l'ancienne image fixe) */
+/*
+ * Utilise un pseudo-élément ::after pour créer une ombre/vignettage
+ * par-dessus l'image du slider.
+ */
 .page-banner .banner::after {
-  content: "";
-  position: absolute;
-  inset: 0;
+  content: ""; /* Obligatoire pour qu'un pseudo-élément s'affiche */
+  position: absolute; /* Se positionne par-dessus le parent .banner */
+  inset: 0; /* Raccourci pour top: 0; right: 0; bottom: 0; left: 0; (prend toute la place) */
+  /*
+   * Applique une ombre portée interne (inset) très spécifique
+   * pour assombrir les bords, en particulier en bas à droite.
+   */
   box-shadow: inset 428px -41px 69px 17px rgba(0, 0, 0, 0.55);
-  pointer-events: none;
-  z-index: 1;
+  pointer-events: none; /* L'ombre n'est pas cliquable (on peut cliquer "à travers") */
+  z-index: 1; /* Se place au-dessus du slider (z-index: 0) mais sous les overlays (z-index: 2) */
 }
 
 /* SLIDER couche de fond */
+/*
+ * Conteneur pour la mécanique du slider (JavaScript).
+ */
 .page-banner .slider {
   position: absolute;
-  inset: 0;
-  z-index: 0;
+  inset: 0; /* Prend toute la place du .banner */
+  z-index: 0; /* Se place tout en bas de la pile (sous l'ombre interne) */
 }
 
+/*
+ * Conteneur relatif pour les slides (diapositives).
+ */
 .page-banner .slides {
-  position: relative;
+  position: relative; /* Permet aux .slide d'être positionnées en absolu par rapport à lui */
   width: 100%;
   height: 100%;
 }
 
+/*
+ * Style pour une diapositive (slide) individuelle.
+ */
 .page-banner .slide {
-  position: absolute;
+  position: absolute; /* Toutes les slides sont superposées au même endroit */
   inset: 0;
-  opacity: 0;
-  transition: opacity .7s ease;
-  background-position: center;
-  background-size: cover;
+  opacity: 0; /* Invisibles par défaut */
+  transition: opacity .7s ease; /* Animation de fondu (fade) de 0.7s */
+  background-position: center; /* Centre l'image de fond */
+  background-size: cover; /* L'image de fond couvre tout l'espace sans se déformer */
 }
 
+/*
+ * Style pour la slide actuellement visible.
+ * La classe .is-active est ajoutée par JavaScript.
+ */
 .page-banner .slide.is-active {
-  opacity: 1;
+  opacity: 1; /* Fait apparaître la slide */
 }
 
 /* OVERLAYS (textes/bouton/icône) - au-dessus de tout */
+/*
+ * Positionnement du logo (en haut à gauche).
+ */
 .page-banner .logo {
   position: absolute;
-  top: 5.46%;
+  top: 5.46%; /* Positionnement en pourcentage pour s'adapter à la hauteur */
   left: 3.59%;
-  height: 60px;
-  z-index: 2;
+  height: 60px; /* Hauteur fixe */
+  z-index: 2; /* Se place au-dessus de l'ombre (1) et du slider (0) */
 }
 
+/*
+ * Positionnement du titre principal (gros et gras).
+ */
 .page-banner .title-strong {
   position: absolute;
   top: 39.47%;
   left: 6.25%;
-  width: 668px;
+  width: 668px; /* Dimensions fixes (basées sur la maquette) */
   height: 216px;
   margin: 0;
-  z-index: 2;
+  z-index: 2; /* Au-dessus de tout */
 }
 
+/*
+ * Positionnement du sous-titre (plus léger).
+ */
 .page-banner .title-light {
   position: absolute;
   top: 52.28%;
   left: 6.25%;
   margin: 0;
-  z-index: 2;
+  z-index: 2; /* Au-dessus de tout */
 }
 
+/*
+ * Style du bouton "Réserver" (lien <a> stylisé).
+ */
 .page-banner .btn-reserver {
   position: absolute;
   top: 66.88%;
   left: 6.95%;
-  width: 429px;
+  width: 429px; /* Dimensions fixes */
   height: 65px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Heebo';
+  display: flex; /* Utilise Flexbox pour centrer le texte facilement */
+  align-items: center; /* Centre le texte verticalement */
+  justify-content: center; /* Centre le texte horizontalement */
+  font-family: 'Heebo'; /* Typographie spécifique */
   font-style: normal;
   font-weight: 500;
   font-size: 21px;
   line-height: 31px;
-  text-decoration: none;
-  color: #0C0C0C;
-  background: #FEB91E;
-  border-radius: 15px;
+  text-decoration: none; /* Supprime le soulignement par défaut des liens */
+  color: #0C0C0C; /* Couleur du texte (sombre) */
+  background: #FEB91E; /* Couleur de fond (jaune) */
+  border-radius: 15px; /* Coins arrondis */
+  /* Définit une transition douce pour les effets de survol */
   transition: transform .25s ease, background .25s ease;
-  z-index: 2;
+  /* z-index: 2; (Hérite du z-index: 2 des autres overlays, pas besoin de le répéter) */
 }
 
+/*
+ * Effet au survol (hover) du bouton "Réserver".
+ */
 .page-banner .btn-reserver:hover {
-  transform: scale(1.05);
-  background: #ffc933;
+  transform: scale(1.05); /* Grossit légèrement le bouton */
+  background: #ffc933; /* Change la couleur de fond pour un jaune plus clair */
 }
 
+/*
+ * Style pour l'icône "billet" (probablement une image <img>).
+ */
 .page-banner .billet {
   position: absolute;
-  top: 629.77px;
+  top: 629.77px; /* Positionnement très précis en pixels */
   left: 11%;
   height: 22px;
-  transform: rotate(-44.02deg);
-  z-index: 2;
+  transform: rotate(-44.02deg); /* Applique une rotation à l'icône */
+  z-index: 2; /* Au-dessus de tout */
 }
