@@ -125,12 +125,26 @@
 /*
  * Style du bouton "Réserver" (lien <a> stylisé).
  */
-.page-banner .btn-reserver {
-  position: absolute;
+
+.page-banner .reservation {
+  position: absolute; /* Le conteneur entier est positionné */
   top: 66.88%;
-  left: 6.95%;
-  width: 429px; /* Dimensions fixes */
+  left: 6.25%; /* Aligné avec les titres (6.25%) */
+  width: 429px;
   height: 65px;
+  z-index: 2; /* S'assure qu'il est au-dessus du slider */
+}
+
+
+/*
+ * Style du bouton "Réserver" (lien <a> stylisé).
+ * IL N'EST PLUS EN POSITION ABSOLUE MAIS REMPLIT LE PARENT.
+ */
+.page-banner .btn-reserver {
+  /* Retrait de position: absolute, top, left, width, height */
+  /* pour qu'il remplisse le conteneur .reservation */
+  width: 100%;
+  height: 100%;
   display: flex; /* Utilise Flexbox pour centrer le texte facilement */
   align-items: center; /* Centre le texte verticalement */
   justify-content: center; /* Centre le texte horizontalement */
@@ -141,11 +155,10 @@
   line-height: 31px;
   text-decoration: none; /* Supprime le soulignement par défaut des liens */
   color: #0C0C0C; /* Couleur du texte (sombre) */
-  background: #FEB91E; /* Couleur de fond (jaune) */
+  background: #FEB91E; /* <--- CORRECTION: La couleur jaune est maintenant ici */
   border-radius: 15px; /* Coins arrondis */
   /* Définit une transition douce pour les effets de survol */
   transition: transform .25s ease, background .25s ease;
-  /* z-index: 2; (Hérite du z-index: 2 des autres overlays, pas besoin de le répéter) */
 }
 
 /*
@@ -158,12 +171,13 @@
 
 /*
  * Style pour l'icône "billet" (probablement une image <img>).
+ * IL EST POSITIONNÉ PAR RAPPORT À SON NOUVEAU PARENT (.reservation).
  */
 .page-banner .billet {
   position: absolute;
-  top: 629.77px; /* Positionnement très précis en pixels */
-  left: 11%;
+  /* top et left sont ajustés pour le positionnement relatif au conteneur */
+  top: 19px; /* Exemple d'ajustement pour le faire dépasser */
+  left: 50px; /* Ajustement horizontal */
   height: 22px;
   transform: rotate(-44.02deg); /* Applique une rotation à l'icône */
-  z-index: 2; /* Au-dessus de tout */
 }

@@ -1,0 +1,280 @@
+/* ================================== */
+/* responsive.css             */
+/* Surcharges pour mobiles/tablettes  */
+/* ================================== */
+
+/* ----- Point de rupture principal (Tablette et en dessous) ----- */
+@media (max-width: 900px) {
+
+  /* --- 1. Correction Globale du Layout (page-salle, page-tarif, etc.) --- */
+  
+  /************************************************************/
+  /* === CORRECTION APPLIQUÉE (Spécificité) === */
+  /************************************************************/
+  
+  /* On force le layout à passer sur UNE seule colonne
+     en ciblant spécifiquement chaque page.
+  */
+  .page-salle .layout,
+  .page-tarif .layout,
+  .page-snacks .layout,
+  .page-paiement .layout,
+  .page-ticket .layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* La colonne "gauche" (qui est maintenant en haut) ne doit plus
+     faire 100vh de haut, sinon elle cache tout le contenu. */
+  .left {
+    min-height: auto; /* Annule le 100vh */
+    height: auto;
+  }
+
+  .left .left-content {
+    min-height: auto;
+    padding: 60px 5% 30px; /* Réduit le padding vertical */
+    gap: 15px;
+  }
+  
+  .left .poster {
+     width: min(180px, 40vw); /* Réduit l'affiche */
+  }
+  
+  .left .film-title,
+  .left .movie-info .title {
+    font-size: 28px; /* Réduit la taille du titre */
+  }
+  
+  .left .logo-pathe {
+    height: 50px; /* Logo plus petit */
+  }
+
+  /* On cache le fil d'ariane sur mobile pour gagner de la place */
+  .left .breadcrumb {
+    display: none; 
+  }
+
+  /* Les colonnes "droites" (qui sont maintenant en bas) ont besoin de padding */
+  .page-salle .right,
+  .page-tarif .right,
+  .page-snacks .right,
+  .page-paiement .right,
+  .page-ticket .right-column { /* Cible le bon conteneur pour ticket.html */
+    padding: 24px 16px;
+  }
+
+  /* --- 2. Correction 'page-salle' (Plan de salle) --- */
+  
+  /* Le plan de salle est trop large, on le rend 'scrollable' */
+  .page-salle .grid {
+    padding: 20px 10px; /* Moins de padding */
+    overflow-x: auto; /* PERMET DE SCROLLER LE PLAN !! */
+    justify-content: start; /* Aligne au début (pas au centre) */
+  }
+  
+  .page-salle .screen {
+    margin: 10px 0;
+  }
+  .page-salle .legend {
+    flex-wrap: wrap; /* La légende peut passer sur 2 lignes */
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  /* --- 3. Correction 'page-catalogue' (Filtres et Séances) --- */
+
+  /* Les filtres passent en colonne */
+  .page-catalogue .search-filters {
+    padding: 16px;
+    gap: 12px;
+  }
+  
+  /* Tous les boutons de filtre prennent 100% de largeur */
+  .page-catalogue .rect {
+    width: 100% !important; /* Force la largeur pleine */
+  }
+  
+  /* La grille des séances est maintenant responsive (passe à la ligne) */
+  .page-catalogue .showtimes {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  
+  /* Bouton "Scroll Top" (rectangle-9) : on le remonte */
+  .page-catalogue .rectangle-9 {
+    left: auto;
+    right: 15px;
+    bottom: 15px;
+  }
+
+  /* --- 4. Correction 'page-paiement' (Barre de paiement) --- */
+  
+  /* La barre de paiement passe en colonne */
+  .page-paiement .paybar {
+    grid-template-columns: 1fr; /* Une seule colonne */
+  }
+  .page-paiement .cta {
+    flex-direction: column-reverse; /* Met Payer en haut */
+  }
+  .page-paiement .btn-primary,
+  .page-paiement .btn-ghost {
+     width: 100%;
+     height: 50px;
+  }
+  .page-paiement .total {
+    padding: 12px 18px;
+    text-align: center;
+  }
+  
+  /* Formulaire de paiement (2 colonnes) */
+  .page-paiement .grid-2 {
+    grid-template-columns: 1fr; /* Passe à 1 colonne */
+  }
+
+  /* --- 5. Correction 'page-tarif' (Barre de total) --- */
+  
+  .page-tarif .bottom-bar {
+    grid-template-columns: 1fr; /* Une seule colonne */
+    margin: 0 -16px -24px; /* Gère le padding parent */
+  }
+  .page-tarif .bottom-bar .totalBox {
+     padding: 12px 16px;
+  }
+  .page-tarif .bottom-bar .cta {
+    height: 50px;
+    font-size: 16px;
+  }
+
+  /* --- 6. Correction 'page-snacks' (Grille produits) --- */
+  .page-snacks .grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+  .page-snacks .card {
+    height: 230px; /* Un peu plus petit */
+  }
+  .page-snacks .cart-foot {
+    flex-direction: column; /* Passe en colonne */
+    align-items: stretch; /* Les boutons prennent 100% */
+    gap: 10px;
+  }
+  .page-snacks .btn-continue, .page-Gsnack .btn-ghost {
+    text-align: center;
+  }
+}
+
+
+/* ----- Point de rupture "Mobile" (Téléphone) ----- */
+/* On cible les écrans très étroits de 480px ou moins */
+@media (max-width: 480px) {
+  
+  /* --- Correction 'index.css' (Bannière) --- */
+  
+  .page-banner .title-strong {
+    width: auto; /* Annule la largeur fixe */
+    left: 5%;
+    right: 5%;
+    font-size: 18vw; /* Taille de police relative à la largeur */
+    height: auto; /* Annule la hauteur fixe */
+    line-height: 1.1;
+  }
+  
+  .page-banner .title-light {
+    width: auto;
+    left: 5%;
+    right: 5%;
+    top: 60%; /* Repositionne */
+    font-size: 10vw;
+  }
+  
+  .page-banner .reservation {
+     width: 90%;
+     left: 5%;
+     top: 75%; /* Repositionne */
+     height: 60px;
+  }
+  
+  .page-banner .btn-reserver {
+    font-size: 18px;
+  }
+  
+  .page-banner .billet {
+    display: none; /* Cache l'icône billet, trop compliquée à placer */
+  }
+  
+  .page-banner .logo {
+    height: 40px; /* Logo plus petit */
+  }
+  
+  /* --- Autres corrections mobiles --- */
+  
+  .page-catalogue .film {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    text-align: center;
+  }
+  
+  .page-catalogue .film .poster {
+     margin: 0 auto; /* Centre le poster */
+  }
+  
+  .page-catalogue .film .meta {
+    justify-content: center; /* Centre les métadonnées */
+  }
+  
+  /************************************************************/
+  /* === VRAIE CORRECTION (Spécificité) - 480px === */
+  /************************************************************/
+
+  /* Titres des sections (salle, tarifs, etc.) */
+  .page-salle .headline,
+  .page-tarif .headline,
+  .page-snacks .headline,
+  .page-paiement .title, /* Cible .title pour paiement */
+  .page-ticket .headline {
+    font-size: 24px; /* Plus petit */
+  }
+
+  .page-salle .sub,
+  .page-tarif .sub,
+  .page-snacks .shop-sub, /* Cible .shop-sub pour snacks */
+  .page-paiement .sub {
+    font-size: 14px;
+  }
+  
+  /* Padding général (mobile) */
+  .page-salle .right,
+  .page-tarif .right,
+  .page-snacks .right,
+  .page-paiement .right,
+  .page-ticket .right-column {
+    padding: 16px; /* Plus serré que les 24px de la tablette */
+  }
+
+  /* Correction 'page-tarif' (mobile) */
+  .page-tarif .card.promo .coupon {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+  .page-tarif .promo-row { margin-left: 0; }
+  .page-tarif .tarif-item {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 12px;
+  }
+  .page-tarif .tarif-item .name { font-size: 16px; }
+
+  /* Correction 'page-paiement' (mobile) */
+  .page-paiement .ac-head { padding: 14px 12px; }
+  .page-paiement .ac-head .logos { display: none; } /* Cache logos CB (place) */
+  .page-paiement .input label { font-size: 13px; }
+  .page-paiement .input input { height: 40px; }
+
+  /* Correction 'page-ticket' (mobile) */
+  .page-ticket .ticket {
+    padding: 20px 16px 16px;
+  }
+  .page-ticket .ticket-body h2 {
+    font-size: 24px; /* Titre du film plus petit */
+  }
+}
