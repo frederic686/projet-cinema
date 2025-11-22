@@ -189,7 +189,7 @@
   .page-banner .reservation {
      width: 90%;
      left: 5%;
-     top: 75%; /* Repositionne */
+     top: 82%; /* Repositionne */
      height: 60px;
   }
   
@@ -277,4 +277,76 @@
   .page-ticket .ticket-body h2 {
     font-size: 24px; /* Titre du film plus petit */
   }
+}
+
+
+/* ================================================== */
+/* === NOUVEAU : Point de rupture "Mobile Étroit" (Type A15) === */
+/* Cible les écrans de 400px ou moins (A15 = 360px) */
+/* ================================================== */
+@media (max-width: 400px) {
+  
+  /* On réduit les polices qui sont encore trop grandes */
+  .page-salle .headline,
+  .page-tarif .headline,
+  .page-snacks .headline,
+  .page-paiement .title,
+  .page-ticket .headline {
+    font-size: 20px; /* Plus petit que les 24px du bloc 480px */
+  }
+
+  .page-salle .sub,
+  .page-tarif .sub,
+  .page-snacks .shop-sub,
+  .page-paiement .sub {
+    font-size: 13px; /* Plus petit que les 14px */
+  }
+  
+  /* On serre un peu plus les paddings pour gagner de la place */
+  .page-salle .right,
+  .page-tarif .right,
+  .page-snacks .right,
+  .page-paiement .right,
+  .page-ticket .right-column {
+    padding: 16px 12px; /* 12px sur les côtés au lieu de 16px */
+  }
+  
+  /* Bannière (index) : on réduit les polices de la bannière */
+  .page-banner .title-strong {
+    /* 18vw était trop grand sur 360px. 16vw est un meilleur compromis */
+    font-size: 16vw; 
+  }
+  
+  .page-banner .title-light {
+    font-size: 9vw;
+  }
+
+  /* Réservation sur la bannière */
+  .page-banner .reservation {
+     height: 50px;
+  }
+  .page-banner .btn-reserver {
+    font-size: 16px;
+  }
+  
+  /* Ticket : titre du film plus petit */
+  .page-ticket .ticket-body h2 {
+    font-size: 20px; /* Plus petit que les 24px */
+  }
+  
+  /* Tarifs : on serre aussi */
+  .page-tarif .tarif-item {
+    padding: 14px 10px;
+  }
+
+  .page-banner .slide {
+  position: absolute; /* Toutes les slides sont superposées au même endroit */
+  inset: 0;
+  opacity: 0; /* Invisibles par défaut */
+  transition: opacity .7s ease; /* Animation de fondu (fade) de 0.7s */
+  background-position: center; /* Centre l'image de fond */
+  background-size: cover; /* L'image de fond couvre tout l'espace sans se déformer */
+}
+
+  
 }
