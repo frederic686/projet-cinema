@@ -345,7 +345,7 @@
   opacity: 0; /* Invisibles par défaut */
   transition: opacity .7s ease; /* Animation de fondu (fade) de 0.7s */
   background-position: center; /* Centre l'image de fond */
-  background-size: cover; /* L'image de fond couvre tout l'espace sans se déformer */
+  background-size:contain /* L'image de fond couvre tout l'espace sans se déformer */
 }
 
   
